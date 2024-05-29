@@ -1,0 +1,1 @@
+type(shm_can)

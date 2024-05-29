@@ -1,0 +1,139 @@
+CANBUS:
+  -
+    Interface: socketcan
+    Channel: vcan0
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+    
+  - 
+    Interface: socketcan
+    Channel: vcan1
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+  - 
+    Interface: socketcan
+    Channel: vcan2
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+  - 
+    Interface: socketcan
+    Channel: vcan3
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+
+  - 
+    Interface: socketcan
+    Channel: vcan4
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+
+  - 
+    Interface: socketcan
+    Channel: vcan5
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+
+  - 
+    Interface: socketcan
+    Channel: vcan6
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+
+  - 
+    Interface: socketcan
+    Channel: vcan7
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+  - 
+    Interface: socketcan
+    Channel: vcan8
+    BAUD: 500000
+    DBC: mydbc.dbc
+    TX_LIST:
+      - DYNO_CMD
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
