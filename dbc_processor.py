@@ -63,7 +63,7 @@ try:
         
         example_message = bus1.get_message_by_name('ControlCmd')
         data = example_message.encode(encode_dic[msg],strict = True)
-        
+
         print(data)
     shared_mem_1.shm.close()
     shared_mem_1.shm.unlink()

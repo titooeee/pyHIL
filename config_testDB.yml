@@ -1,7 +1,7 @@
 CANBUS:
   -
     Interface: socketcan
-    Channel: vcan0
+    Channel: can0
     BAUD: 500000
     DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
     TX_LIST:
@@ -13,3 +13,92 @@ CANBUS:
       -DBG_DYNO
         - Torque
         - Speed
+  -
+    Interface: socketcan
+    Channel: vcan1
+    BAUD: 500000
+    DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+    TX_LIST:
+      - ControlCmd
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+  -
+    Interface: socketcan
+    Channel: vcan2
+    BAUD: 500000
+    DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+    TX_LIST:
+      - ControlCmd
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
+
+  # -
+  #   Interface: socketcan
+  #   Channel: vcan3
+  #   BAUD: 500000
+  #   DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+  #   TX_LIST:
+  #     - ControlCmd
+  #       - Torque
+  #       - Speed
+    
+  #   RX_LIST:
+  #     -DBG_DYNO
+  #       - Torque
+  #       - Speed
+
+  # -
+  #   Interface: socketcan
+  #   Channel: vcan4
+  #   BAUD: 500000
+  #   DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+  #   TX_LIST:
+  #     - ControlCmd
+  #       - Torque
+  #       - Speed
+    
+  #   RX_LIST:
+  #     -DBG_DYNO
+  #       - Torque
+  #       - Speed
+
+  # -
+  #   Interface: socketcan
+  #   Channel: vcan5
+  #   BAUD: 500000
+  #   DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+  #   TX_LIST:
+  #     - ControlCmd
+  #       - Torque
+  #       - Speed
+    
+  #   RX_LIST:
+  #     -DBG_DYNO
+  #       - Torque
+  #       - Speed
+
+  # -
+  #   Interface: socketcan
+  #   Channel: vcan6
+  #   BAUD: 500000
+  #   DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+  #   TX_LIST:
+  #     - ControlCmd
+  #       - Torque
+  #       - Speed
+    
+  #   RX_LIST:
+  #     -DBG_DYNO
+  #       - Torque
+  #       - Speed
