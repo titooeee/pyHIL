@@ -1,0 +1,15 @@
+CANBUS:
+  -
+    Interface: socketcan
+    Channel: vcan0
+    BAUD: 500000
+    DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
+    TX_LIST:
+      - ControlCmd
+        - Torque
+        - Speed
+    
+    RX_LIST:
+      -DBG_DYNO
+        - Torque
+        - Speed
