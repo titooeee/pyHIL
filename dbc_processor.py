@@ -4,7 +4,40 @@ import cantools
 from multiprocessing import Process
 from multiprocessing.shared_memory import SharedMemory
 import random
+import yaml
+import multiprocessing
 
+class can_dict:
+    
+    def __init__(self,yml_path,manager):
+        self.yml_path = yml_path
+        self.can_shm_dict = {}
+        self.manager = manager
+    
+    def create_can_shm_template(self):
+        
+        with open(self.yml_path,'r') as file:
+            system_config = yaml.safe_load(file)
+        
+        can_config = system_config['CANBUS']
+
+        for can_bus_config in can_config:
+            self.can_shm_dict[can_bus_config['Channel']]=self.manager.dict()
+            db = cantools.database.load_file(can_bus_config['DBC'])
+            for frame in can_bus_config['TX_LIST']:
+                msg = db.get_message_by_name(frame)
+                self.can_shm_dict[can_bus_config['Channel']][msg.name]=self.manager.dict()
+                for sig in msg.signals:
+                    self.can_shm_dict[can_bus_config['Channel']][msg.name][sig.name]=0
+            
+            for frame in can_bus_config['RX_LIST']:
+                msg = db.get_message_by_name(frame)
+                self.can_shm_dict[can_bus_config['Channel']][msg.name]=self.manager.dict()
+                for sig in msg.signals:
+                    self.can_shm_dict[can_bus_config['Channel']][msg.name][sig.name]=0
+        
+        # print(self.can_shm_dict)
+                
 
 
 class dbc_processor:
@@ -43,33 +76,33 @@ class create_shared_mem:
 
 
 
-# lst_msg = ["ControlCmd","TorqueSensorData"]
-lst_msg = ["ControlCmd"]
+# # lst_msg = ["ControlCmd","TorqueSensorData"]
+# lst_msg = ["ControlCmd"]
 
-bus1 = dbc_processor("/home/mtitoo/pyHIL/open_actuator.dbc",lst_msg,lst_msg)
-bus1.parse()
+# bus1 = dbc_processor("/home/mtitoo/pyHIL/open_actuator.dbc",lst_msg,lst_msg)
+# bus1.parse()
 
-shared_mem_1 = create_shared_mem('vcan0',bus1.lenght+1)
-print(type(shared_mem_1))
+# shared_mem_1 = create_shared_mem('vcan0',bus1.lenght+1)
+# print(type(shared_mem_1))
 
-encode_dic = {}
-try:
-    for msg in bus1.dbc_dic.keys():
-        encode_dic[msg] = {}    
-        for sig in bus1.dbc_dic[msg].keys():
-            encode_dic[msg][sig] = shared_mem_1.array[bus1.dbc_dic[msg][sig]]
+# encode_dic = {}
+# try:
+#     for msg in bus1.dbc_dic.keys():
+#         encode_dic[msg] = {}    
+#         for sig in bus1.dbc_dic[msg].keys():
+#             encode_dic[msg][sig] = shared_mem_1.array[bus1.dbc_dic[msg][sig]]
         
-        print(encode_dic[msg])
+#         print(encode_dic[msg])
         
-        example_message = bus1.get_message_by_name('ControlCmd')
-        data = example_message.encode(encode_dic[msg],strict = True)
+#         example_message = bus1.get_message_by_name('ControlCmd')
+#         data = example_message.encode(encode_dic[msg],strict = True)
 
-        print(data)
-    shared_mem_1.shm.close()
-    shared_mem_1.shm.unlink()
-except Exception as e:
-    print(f"Custom error occurred: {e}")
-    shared_mem_1.shm.close()
-    shared_mem_1.shm.unlink()
+#         print(data)
+#     shared_mem_1.shm.close()
+#     shared_mem_1.shm.unlink()
+# except Exception as e:
+#     print(f"Custom error occurred: {e}")
+#     shared_mem_1.shm.close()
+#     shared_mem_1.shm.unlink()
 
 

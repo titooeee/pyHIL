@@ -9,6 +9,7 @@ from multiprocessing import shared_memory
 import keyboard
 import dbc_processor as dp
 import logging
+import cantools
 
 can.Logger("test.asc",)
 
@@ -22,7 +23,29 @@ can.Logger("test.asc",)
 #         print(f"msg is --------------------------{msg}")
 #         log_entry = f"RECEIVED - ID: {msg.arbitration_id}, DLC: {msg.dlc}, Data: {msg.data.hex()}"
 #         logging.info(log_entry)
+db = cantools.database.load_file('/home/mtitoo/pyHIL/open_actuator.dbc')
 
+def decode_can_message(msg):
+    try:
+        # Decode the message using cantools
+        decoded = db.decode_message(msg.arbitration_id, msg.data)
+        return decoded
+    except KeyError:
+        # If the message ID is not in the DBC file
+        return None
+
+def receive_and_decode_can_messages(interface, filters):
+    bus = can.interface.Bus(interface, bustype='socketcan')
+    print(f"Listening on {bus.channel_info}...")
+    
+    while True:
+        msg = bus.recv()
+        if msg:
+            # Check if the message matches any of the filters
+            if any(f['can_id'] == msg.arbitration_id for f in filters):
+                decoded_message = decode_can_message(msg)
+                if decoded_message:
+                    print(f"Decoded message: {decoded_message}")
 
 def can_read(mem_ref,stop_event,bus1):
 
@@ -53,7 +76,7 @@ def can_read(mem_ref,stop_event,bus1):
         BUS = can.Bus(interface=key['Interface'], channel=key['Channel'], bitrate=key['BAUD'])
         buses.append(BUS)
         # logger = can.Logger(str(key['Channel']+".mf4"))
-        logger = can.SizedRotatingLogger(str(key['Channel']+".asc"),max_bytes=1024*1024*1)
+        logger = can.SizedRotatingLogger(str(key['Channel']+".mf4"),max_bytes=5*1024)
         # logger = can.Logger("can_log_hereeee.mf4")
         
         # listener = MyCANListener()
@@ -121,7 +144,16 @@ if __name__== '__main__':
         p1.start()
         p2.start()
         
-        time.sleep(50)
+        
+        interface = 'vcan3'
+        # Define filters (example: filter messages with ID 123 and 456)
+        filters = [
+        {"can_id": 0xFA, "can_mask": 0x7FF},
+        {"can_id": 0xFB, "can_mask": 0x7FF},
+        {"can_id": 0xFC, "can_mask": 0x7FF}
+        ]
+        # receive_and_decode_can_messages(interface, filters)
+        time.sleep(5)
         stop_event.set()
 
         p1.join()
@@ -135,68 +167,3 @@ if __name__== '__main__':
         shm_1.shm.close()
         shm_1.shm.unlink()
     
-
-    # can_read(shm_1.array,bus1)
-    # time.sleep(5)
-    # # stop_event.set()
-    # shm_1.shm.close()
-    # shm_1.shm.unlink()
-
-
-    
-    
-            
-# import can
-# import logging
-# from datetime import datetime
-# import time
-
-# # Set up logging
-# logging.basicConfig(filename='can_log.txt', level=logging.INFO, format='%(asctime)s - %(message)s')
-
-# class MyCANListener(can.Listener):
-#     def on_message_received(self, msg):
-#         log_entry = f"RECEIVED - ID: {msg.arbitration_id}, DLC: {msg.dlc}, Data: {msg.data.hex()}"
-#         logging.info(log_entry)
-#         print(log_entry)
-
-# def send_can_message(bus):
-#     # Example CAN message
-#     msg = can.Message(arbitration_id=0x123, data=[0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88], is_extended_id=False)
-#     try:
-#         bus.send(msg)
-#         log_entry = f"TRANSMITTED - ID: {msg.arbitration_id}, DLC: {msg.dlc}, Data: {msg.data.hex()}"
-#         logging.info(log_entry)
-#         print(log_entry)
-#     except can.CanError:
-#         print("Message NOT sent")
-
-# def main():
-#     # Set up the CAN interface (replace 'vcan0' with your actual CAN interface)
-#     bus = can.interface.Bus(channel='can0', bustype='socketcan')
-
-#     # Set up the logger to log messages to a file
-#     logger = can.Logger('can_log_titoo.mf4')
-    
-
-#     # Create an instance of your listener
-#     listener = MyCANListener()
-
-#     # Create a Notifier to manage the logger and listener
-#     notifier = can.Notifier(bus, [logger])
-
-#     print("Logging CAN messages to can_log.asc. Press Ctrl+C to stop.")
-
-#     try:
-#         # Periodically send a CAN message
-#         while True:
-#             send_can_message(bus)
-#             time.sleep(1)  # Adjust the sleep time as needed
-#     except KeyboardInterrupt:
-#         print("Stopping CAN logger.")
-#     finally:
-#         # Clean up the notifier
-#         notifier.stop()
-
-# if __name__ == "__main__":
-#     main()
