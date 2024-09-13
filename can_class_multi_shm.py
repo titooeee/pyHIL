@@ -8,19 +8,28 @@ import time
 import random
 import asyncio
 import logging
-
+import platform
 # logging.basicConfig(level=logging.DEBUG)
 # async def main():
 def main():
     manager = multiprocessing.Manager()
-    shm_gen = dp.can_dict('/home/mtitoo/pyHIL/config_testDB.yml',manager)
+
+    if platform.system() == "Linux":
+        shm_gen = dp.can_dict('/home/mtitoo/pyHIL/config_testDB.yml',manager)
+    else:
+        shm_gen= dp.can_dict("C:\\Users\\Public\\Documents\\Python Scripts\\pyHIL\\config_testDB.yml",manager)
     shm_gen.create_can_shm_template()
     shared_dict = shm_gen.can_shm_dict
 
     lst_msg = ["ControlCmd","ControlStatus","LimitsCmd"]
     
-    with open('/home/mtitoo/pyHIL/config_testDB.yml','r') as file:
-        dynoConfig = yaml.safe_load(file)
+    if platform.system() == "Linux":
+        with open('/home/mtitoo/pyHIL/config_testDB.yml','r') as file:
+            dynoConfig = yaml.safe_load(file)
+    else:
+        with open(r'C:\Users\Public\Documents\Python Scripts\pyHIL\config_testDB.yml','r') as file:
+            dynoConfig = yaml.safe_load(file)
+
     
     canBuses = dynoConfig['CANBUS']
     buses = []
