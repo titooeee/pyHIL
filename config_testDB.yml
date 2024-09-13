@@ -1,7 +1,7 @@
 CANBUS:
   -
-    Interface: nixnet
-    Channel: CAN1
+    Interface: pcan
+    Channel: PCAN_USBBUS1
     BAUD: 500000
     DBC: "C:\\Users\\Public\\Documents\\Python Scripts\\pyHIL\\open_actuator.dbc"
     TX_LIST:
@@ -23,8 +23,8 @@ CANBUS:
   #     - TorqueSensorData
 
   -
-    Interface: nixnet
-    Channel: CAN2
+    Interface: pcan
+    Channel: PCAN_USBBUS2
     BAUD: 500000
     DBC: "C:\\Users\\Public\\Documents\\Python Scripts\\pyHIL\\open_actuator.dbc"
     TX_LIST:
