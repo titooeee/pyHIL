@@ -38,6 +38,7 @@ def main():
     stop_event = multiprocessing.Event()
     lock = shm_gen.manager.Lock()
     process =[]
+    # stop_event_as = asyncio.Event()
     stop_event_as = asyncio.Event()
 
     
@@ -51,12 +52,12 @@ def main():
         p1=multiprocessing.Process(target=can_obj.start_logger, args=())
         p2=multiprocessing.Process(target=can_obj.cyclic_task, args=())
         process.append(p1)
-        # process.append(p2)
+        process.append(p2)
         p1.start()
         p2.start()
         buses.append(can_obj)
-    
-    time.sleep(1)
+
+    time.sleep(5)
     stop_event.set()
     # for canobj in buses:
     #     canobj.stop_can_bus()

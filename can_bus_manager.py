@@ -21,6 +21,9 @@ class can_bus_manager:
         self.lock = lock
         self.stop_event_as = stop_event_as
         self.logger = logging.getLogger(__name__)
+        self.notifier = None
+        self.buffer = None
+        self.localEvent = multiprocessing.Event()
     
     def start_bus(self):
         # BUS = can.interface.Bus(channel=key['Channel'], bustype =key['Interface'], bitrate=key['BAUD'] )
@@ -55,12 +58,12 @@ class can_bus_manager:
     
     def start_logger(self):
         # logger = can.SizedRotatingLogger(str(self.can_bus_config['Channel']+".mf4"),max_bytes=5*1024**2)
-        logger = can.Logger(str(self.can_bus_config['Channel']+".mf4"))
+        logger = can.Logger(str(self.can_bus_config['Channel']+".asc"))
         
         self.buffer = can.BufferedReader()
         self.notifier  = can.Notifier(self.bus, [logger,self.buffer],timeout=5)
         try:
-            while not self.stop_event.is_set():
+            while not self.localEvent.is_set():
                 self.update_msg()
                 self.modify_tx_cyclic()
                 msg = self.buffer.get_message()
@@ -78,10 +81,10 @@ class can_bus_manager:
                                     self.lock.release()
             print(f"pos-1:{time.time()}")
             
-            self.close()
+            # self.close()
         except Exception as e:
-            e
-            self.close()
+            print(e)
+            # self.close()
         
  
     def decode_can_message(self,msg):
@@ -106,10 +109,19 @@ class can_bus_manager:
     
     def cyclic_task(self):
         while not self.stop_event.is_set():
+            self.change_shm()
             self.update_msg()
             self.modify_tx_cyclic()
-            time.sleep(0.001)
+            time.sleep(0.1)
+        
+        for cyclic_task in self.task:
+                cyclic_task.stop()
+        self.task.clear()
+        
         self.close()
+        time.sleep(1)
+        self.localEvent.set()
+        
 
 
     def change_shm(self):
@@ -120,16 +132,15 @@ class can_bus_manager:
     
     def close(self):
         self.logger.info("Shutting down CAN bus and logger.")
-        for cyclic_task in self.task:
-                cyclic_task.stop()
         if self.notifier:
             self.notifier.stop()
         if self.bus:
             self.bus.shutdown()
+            # self.buffer.stop()
         self.logger.info("CAN bus and logger shut down successfully.")
 
-    def __del__(self):
-        self.close()
+    # def __del__(self):
+    #     self.close()
 
 
         
