@@ -24,7 +24,7 @@ CANBUS:
 
   -
     Interface: socketcan
-    Channel: vcan2
+    Channel: vcan1
     BAUD: 500000
     DBC: "/home/mtitoo/pyHIL/open_actuator.dbc"
     TX_LIST:
