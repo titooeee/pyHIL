@@ -3,13 +3,146 @@ CANBUS:
     Interface: pcan
     Channel: PCAN_USBBUS1
     BAUD: 500000
-    DBC: "C:\\Users\\Public\\Documents\\Python Scripts\\pyHIL\\open_actuator.dbc"
+    DBC: "g:\\Shared drives\\Engineering - Dyno Engine Test Data\\Software\\Temp\\sharedfolder\\dbc\\dutdbc\\maint_icd_CanA.dbc"
     TX_LIST:
-      - ControlCmd
-      - TorqueSensorData
+      - FCC_LA_EEC_Cmd_MSG01
+      - FCC_LA_BMU_Cmd_MSG04
+      - FCC_LA_Aircraft_Status_MSG21
+ 
     
     RX_LIST:
-      - TorqueSensorData
+      - EEC_12_Config_MSG30
+      - EEC_12_Status_Fast_MSG10
+      - EEC_12_Status_Slow_MSG11
+      - EEC_1_Config_MSG30
+      - FCC_LA_CSA_Cmd_MSG02
+      - TPAC_1_Config_MSG30
+      - TPAC_2_Config_MSG30
+      - TPAC_2_Status_MSG16
+      - TPAC_3_Status_MSG16
+      - FCC_LB_EEC_Cmd_MSG01
+      - FCC_LB_TPAC_Cmd_MSG03
+      - FCC_RA_CSA_Cmd_MSG02
+      - FCC_RA_EEC_Cmd_MSG01
+      - CSA_LIF_Config_MSG30
+      - CSA_LIF_Status_MSG15
+      - CSA_LIR_Config_MSG30
+      - CSA_LIR_Status_MSG15
+      - CSA_LMR_Config_MSG30
+      - CSA_LMR_Status_MSG15
+      - CSA_LOF_Config_MSG30
+      - CSA_LOF_Status_MSG15
+      - CSA_LOR_Config_MSG30
+  -
+    Interface: pcan
+    Channel: PCAN_USBBUS2
+    BAUD: 500000
+    DBC: "g:\\Shared drives\\Engineering - Dyno Engine Test Data\\Software\\Temp\\sharedfolder\\dbc\\dutdbc\\maint_icd_CanA.dbc"
+    TX_LIST:
+      - FCC_LA_EEC_Cmd_MSG01
+      - FCC_LA_BMU_Cmd_MSG04
+      - FCC_LA_Aircraft_Status_MSG21
+
+    
+    RX_LIST:
+      - EEC_12_Config_MSG30
+      - EEC_12_Status_Fast_MSG10
+      - EEC_12_Status_Slow_MSG11
+      - EEC_1_Config_MSG30
+      - FCC_LA_CSA_Cmd_MSG02
+      - TPAC_1_Config_MSG30
+      - TPAC_2_Config_MSG30
+      - TPAC_2_Status_MSG16
+      - TPAC_3_Status_MSG16
+      - FCC_LB_EEC_Cmd_MSG01
+      - FCC_LB_TPAC_Cmd_MSG03
+      - FCC_RA_CSA_Cmd_MSG02
+      - FCC_RA_EEC_Cmd_MSG01
+      - CSA_LIF_Config_MSG30
+      - CSA_LIF_Status_MSG15
+      - CSA_LIR_Config_MSG30
+      - CSA_LIR_Status_MSG15
+      - CSA_LMR_Config_MSG30
+      - CSA_LMR_Status_MSG15
+      - CSA_LOF_Config_MSG30
+      - CSA_LOF_Status_MSG15
+      - CSA_LOR_Config_MSG30
+
+  -
+    Interface: pcan
+    Channel: PCAN_USBBUS3
+    BAUD: 500000
+    DBC: "g:\\Shared drives\\Engineering - Dyno Engine Test Data\\Software\\Temp\\sharedfolder\\dbc\\dutdbc\\maint_icd_CanA.dbc"
+    TX_LIST:
+      - FCC_LA_EEC_Cmd_MSG01
+      - FCC_LA_BMU_Cmd_MSG04
+      - FCC_LA_Aircraft_Status_MSG21
+
+    
+    RX_LIST:
+      - EEC_12_Config_MSG30
+      - EEC_12_Status_Fast_MSG10
+      - EEC_12_Status_Slow_MSG11
+      - EEC_1_Config_MSG30
+      - FCC_LA_CSA_Cmd_MSG02
+      - TPAC_1_Config_MSG30
+      - TPAC_2_Config_MSG30
+      - TPAC_2_Status_MSG16
+      - TPAC_3_Status_MSG16
+      - FCC_LB_EEC_Cmd_MSG01
+      - FCC_LB_TPAC_Cmd_MSG03
+      - FCC_RA_CSA_Cmd_MSG02
+      - FCC_RA_EEC_Cmd_MSG01
+      - CSA_LIF_Config_MSG30
+      - CSA_LIF_Status_MSG15
+      - CSA_LIR_Config_MSG30
+      - CSA_LIR_Status_MSG15
+      - CSA_LMR_Config_MSG30
+      - CSA_LMR_Status_MSG15
+      - CSA_LOF_Config_MSG30
+      - CSA_LOF_Status_MSG15
+      - CSA_LOR_Config_MSG30
+
+  -
+    Interface: pcan
+    Channel: PCAN_USBBUS4
+    BAUD: 500000
+    DBC: "g:\\Shared drives\\Engineering - Dyno Engine Test Data\\Software\\Temp\\sharedfolder\\dbc\\dutdbc\\maint_icd_CanA.dbc"
+    TX_LIST:
+      - FCC_LA_EEC_Cmd_MSG01
+      - FCC_LA_BMU_Cmd_MSG04
+      - FCC_LA_Aircraft_Status_MSG21
+
+    
+    RX_LIST:
+      - EEC_12_Config_MSG30
+      - EEC_12_Status_Fast_MSG10
+      - EEC_12_Status_Slow_MSG11
+      - EEC_1_Config_MSG30
+      - FCC_LA_CSA_Cmd_MSG02
+      - TPAC_1_Config_MSG30
+      - TPAC_2_Config_MSG30
+      - TPAC_2_Status_MSG16
+      - TPAC_3_Status_MSG16
+      - FCC_LB_EEC_Cmd_MSG01
+      - FCC_LB_TPAC_Cmd_MSG03
+      - FCC_RA_CSA_Cmd_MSG02
+      - FCC_RA_EEC_Cmd_MSG01
+      - CSA_LIF_Config_MSG30
+      - CSA_LIF_Status_MSG15
+      - CSA_LIR_Config_MSG30
+      - CSA_LIR_Status_MSG15
+      - CSA_LMR_Config_MSG30
+      - CSA_LMR_Status_MSG15
+      - CSA_LOF_Config_MSG30
+      - CSA_LOF_Status_MSG15
+      - CSA_LOR_Config_MSG30
+
+      
+
+
+
+
   # -
   #   Interface: socketcan
   #   Channel: can0
@@ -22,17 +155,21 @@ CANBUS:
   #   RX_LIST:
   #     - TorqueSensorData
 
-  -
-    Interface: pcan
-    Channel: PCAN_USBBUS2
-    BAUD: 500000
-    DBC: "C:\\Users\\Public\\Documents\\Python Scripts\\pyHIL\\open_actuator.dbc"
-    TX_LIST:
-      - ControlCmd
-      - TorqueSensorData
+  # -
+  #   Interface: pcan
+  #   Channel: PCAN_USBBUS2
+  #   BAUD: 500000
+  #   DBC: "C:\\Users\\Public\\Documents\\gitRepoExternal\\pyHIL\\supportFiles\\open_actuator.dbc"
+  #   TX_LIST:
+  #     - TorqueSensorData
+  #     - LimitsCmd
+  #     - ControlCmd
     
-    RX_LIST:
-      - TorqueSensorData
+  #   RX_LIST:
+  #     - ControlStatus
+  #     - SystemStatus
+  #     - TorqueSensorData
+  #     - LimitsCmd
 
   # -
   #   Interface: socketcan

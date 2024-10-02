@@ -11,6 +11,7 @@ import dbc_processor as dp
 import logging
 import cantools
 import asyncio
+import can.l
 
 class can_bus_manager:
     def __init__(self,can_bus_config,shm_can_dict,stop_event,lock,stop_event_as):

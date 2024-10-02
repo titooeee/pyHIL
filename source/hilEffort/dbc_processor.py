@@ -36,7 +36,7 @@ class can_dict:
                 for sig in msg.signals:
                     self.can_shm_dict[can_bus_config['Channel']][msg.name][sig.name]=0
         
-        # print(self.can_shm_dict)
+        print(self.can_shm_dict)
                 
 
 
