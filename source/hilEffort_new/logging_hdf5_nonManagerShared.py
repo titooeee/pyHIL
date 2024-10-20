@@ -60,10 +60,10 @@ class h5pyWriter(multiprocessing.Process):
         if os.path.exists(self.hdf5FilePath):
             os.remove(self.hdf5FilePath)
         with h5py.File(self.hdf5FilePath, 'a') as hdf:
-            # for key in self.mapDict.keys():
-            #     hdf.create_dataset(key, (0,), maxshape=(None,), dtype='f')
-            dataset = hdf.create_dataset('data', (0, num_channels), maxshape=(None, num_channels))
-            dataset.attrs['channel_names'] = np.array(self.mapDict.keys(), dtype='S') 
+            for key in self.mapDict.keys():
+                hdf.create_dataset(key, (0,), maxshape=(None,), dtype='f')
+            # dataset = hdf.create_dataset('data', (0, num_channels), maxshape=(None, num_channels))
+            # dataset.attrs['channel_names'] = np.array(self.mapDict.keys(), dtype='S') 
             while True:
                 try:
                     values = self.data_queue.get(block=False)  # Wait for data from the queue
@@ -77,13 +77,13 @@ class h5pyWriter(multiprocessing.Process):
                     break
             # print('>>>>>>>>>>>>>Write thread Closed')
                 # Write the values to HDF5
-                # for idx, key in enumerate(self.mapDict.keys()):
-                #     dataset = hdf[key]
-                #     dataset.resize((dataset.shape[0] + self.dataBufSize,))
-                #     dataset[-self.dataBufSize:] = values[idx,:]
-                #     # dataset[dataset.shape[0]:dataset.shape[0] + self.dataBufSize] = values[idx,:]
-                dataset.resize((dataset.shape[0] + self.dataBufSize, num_channels))
-                dataset[-self.dataBufSize:] = values    
+                for idx, key in enumerate(self.mapDict.keys()):
+                    dataset = hdf[key]
+                    dataset.resize((dataset.shape[0] + self.dataBufSize,))
+                    dataset[-self.dataBufSize:] = values[idx,:]
+                    # dataset[dataset.shape[0]:dataset.shape[0] + self.dataBufSize] = values[idx,:]
+                # dataset.resize((dataset.shape[0] + self.dataBufSize, num_channels))
+                # dataset[-self.dataBufSize:] = values    
                 hdf.flush()  # Flush changes to the HDF5 file
     
 
