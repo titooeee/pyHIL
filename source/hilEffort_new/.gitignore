@@ -1,0 +1,11 @@
+# Ignore MF4 files
+*.mf4
+
+# Ignore ASC files
+*.asc
+
+# Ignore HDF5 files
+*.hdf5
+
+# Ignore H5 files
+*.h5

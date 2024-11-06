@@ -11,7 +11,8 @@ import platform
 import keyboard
 import random
 import utilityScipts
-from logging_hdf5_nonManagerShared import h5pyWriter
+# from logging_hdf5_nonManagerShared import h5pyWriter
+from logging_hdf5_customQueue import h5pyWriter
 from utilityScipts import channelDictTemplate
 import numpy as np
 import gc
@@ -47,26 +48,25 @@ def main():
 
 def injectData(mpSharedMemName,mpSharedMemShape,stop_event,mpLock,mapDict):
     # os.nice(-9)
-    # os.sched_setaffinity(0, {4})
+    os.sched_setaffinity(0, {4})
     os.sched_setscheduler(0, os.SCHED_FIFO, os.sched_param(99))
     rng = ExtendedGenerator(PCG64())
     shm = shared_memory.SharedMemory(name=mpSharedMemName)
     mpSharedMem = np.ndarray(mpSharedMemShape, dtype='float64', buffer=shm.buf)
     print('in_update:',shm,shm.buf)
 
-    prevT = time.perf_counter()
-    prevTGC = time.perf_counter()
+    prevT = time.perf_counter_ns()
     lateCounter = 0
     totalCounter = 0
     updateHz = 500
     new_data = np.random.randn(len(mapDict.keys()))
     while not stop_event.is_set():
-        deltaT =  time.perf_counter()-prevT
-        deltaTGC = time.perf_counter() - prevTGC 
-        if (deltaT) >= (1/updateHz):
-            if 1/(deltaT) < (updateHz-5):
+        deltaT =  (time.perf_counter_ns()-prevT)
+        
+        if (deltaT) >= (1e9/updateHz):
+            if 1e9/(deltaT) < (updateHz-5):
                 lateCounter+=1
-            prevT = time.perf_counter()
+            prevT = time.perf_counter_ns()
             # new_data = np.random.randn(len(mapDict.keys()))
             mpLock.acquire()
 
@@ -75,10 +75,12 @@ def injectData(mpSharedMemName,mpSharedMemShape,stop_event,mpLock,mapDict):
             #     # pass
             #     mpSharedMem[mapDict[key]['index']] = 2
             mpSharedMem[:] = new_data
-            mpSharedMem[mapDict['systemChannel/systemTime']['index']] = 1/(deltaT)
+            mpSharedMem[mapDict['systemChannel/systemTime']['index']] = 1e9/(deltaT)
             totalCounter+=1
             mpLock.release()
-    # time.sleep(0.0001)
+        # os.sched_yield()
+        time.sleep(0.00001)
+
     print('>>>>>>>>>>Late Counter', lateCounter,'totalCouter:',totalCounter)
             # print('Update Loop Rate:',1/(time.perf_counter()-prevT))
 
@@ -123,7 +125,7 @@ if __name__== '__main__':
     #         stop_event.set()
     #         break
         
-    time.sleep(10)  
+    time.sleep(30)  
     stop_event.set()
     
     inject_process.join()
